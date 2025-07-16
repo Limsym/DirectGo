@@ -32,34 +32,37 @@
         }
         
         .title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
             color: #5d4037;
             margin-bottom: 16px;
-            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.3);
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.4);
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
         }
         
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             color: #795548;
             margin-bottom: 8px;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            font-style: normal;
         }
         
         .description {
-            font-size: 0.875rem;
+            font-size: 0.95rem;
             color: #8d6e63;
             font-style: italic;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
         }
         
         .search-card {
-            background: #f5e7c1;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2), inset 0 0 30px rgba(139, 69, 19, 0.1);
-            padding: 32px;
-            margin-bottom: 32px;
-            border: 1px solid #d2b48c;
+            background: rgba(245, 231, 193, 0.85); /* Semi-transparent parchment */
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3), inset 0 0 40px rgba(139, 69, 19, 0.15);
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid #d2b48c;
+            backdrop-filter: blur(5px); /* Subtle blur for depth */
         }
         
         .form-group {
@@ -68,24 +71,24 @@
         
         .label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             color: #5d4037;
-            margin-bottom: 8px;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-            text-shadow: 0.5px 0.5px 1px rgba(139, 69, 19, 0.2);
+            margin-bottom: 10px;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
         }
         
         .input {
             width: 100%;
-            padding: 12px 16px;
-            font-size: 1rem;
-            border: 1px solid #d2b48c;
-            border-radius: 6px;
-            transition: border-color 0.2s;
+            padding: 14px 18px;
+            font-size: 1.1rem;
+            border: 2px solid #d2b48c;
+            border-radius: 8px;
+            transition: border-color 0.3s, background-color 0.3s;
             background-color: #faf6e9;
             color: #5d4037;
-            box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.1);
+            box-shadow: inset 0 2px 5px rgba(139, 69, 19, 0.15);
             font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
         }
         
@@ -93,31 +96,33 @@
             outline: none;
             border-color: #a1887f;
             background-color: #fff8e1;
+            box-shadow: inset 0 2px 5px rgba(139, 69, 19, 0.25), 0 0 0 3px rgba(161, 136, 127, 0.3);
         }
         
         .search-btn {
             width: 100%;
             background: #8d6e63;
             color: #f5e7c1;
-            border: 1px solid #795548;
-            padding: 16px;
-            font-size: 1.125rem;
-            border-radius: 6px;
+            border: 2px solid #795548;
+            padding: 18px;
+            font-size: 1.25rem;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-            box-shadow: 0 2px 4px rgba(139, 69, 19, 0.2);
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+            gap: 10px;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
         
         .search-btn:hover {
             background: #795548;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px rgba(139, 69, 19, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(139, 69, 19, 0.4);
         }
         
         .platforms {
@@ -256,10 +261,11 @@
                 <button class="platform-tag" onclick="selectPlatform('zhihu')">知乎</button>
                 <button class="platform-tag" onclick="selectPlatform('xiaohongshu')">小红书</button>
                 <button class="platform-tag" onclick="selectPlatform('weibo')">微博</button>
-                <button class="platform-tag" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
-            </div>
+                <button class="platform-tag" onclick="selectPlatform(\'bilibili\')">哔哩哔哩</button>
+                <button class="platform-tag" onclick="selectPlatform(\'bing\')">Bing</button>
+                <button class="platform-tag" onclick="selectPlatform(\'amap\')">高德地图</button>           </div>
             <p class="alias-info">
-                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站
+                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap
             </p>
     </div>
 
@@ -289,6 +295,18 @@
                 name: '哔哩哔哩',
                 aliases: ['bl', 'bilibili', '哔哩哔哩', 'b站'],
                 searchUrl: 'https://search.bilibili.com/all?keyword={keyword}',
+            },
+            {
+                id: 'bing',
+                name: 'Bing',
+                aliases: ['bing', '必应', 'Bing'],
+                searchUrl: 'https://www.bing.com/search?q={keyword}',
+            },
+            {
+                id: 'amap',
+                name: '高德地图',
+                aliases: ['amap', '高德', '高德地图'],
+                searchUrl: 'https://ditu.amap.com/search?query={keyword}',
             }
         ];
 
@@ -362,4 +380,3 @@
     </script>
 </body>
 </html>
-
