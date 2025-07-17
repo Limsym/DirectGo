@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="msvalidate.01" content="4730E9863540D5964A513B35C0F793AB" />
     <meta name="google-site-verification" content="nXbYRKUwXwReStmNMFc4euXmHP3ZDSE7eVSnOjnof7U" />
-    <title>NoFeed 直达 - 专注搜索，拒绝信息流</title>
-    
+    <title>DirectGo 直达 - 专注搜索，拒绝信息流</title>
     <style>
         * {
             margin: 0;
@@ -134,11 +133,12 @@
         }
         
         .platforms-title {
-            font-size: 0.875rem;
+            font-size: 1rem;
             color: #795548;
-            margin-bottom: 16px;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-            font-style: italic;
+            margin-bottom: 20px;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            font-style: normal;
+            font-weight: 600;
         }
         
         .platform-tags {
@@ -152,69 +152,75 @@
         .platform-tag {
             background: #e6d7b8;
             color: #5d4037;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.875rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid #d2b48c;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            transition: all 0.3s ease;
+            border: 2px solid #d2b48c;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
         }
         
         .platform-tag:hover {
             background: #d7cdb2;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
         }
         
         .platform-tag.active {
             background: #a1887f;
             color: #f5e7c1;
             border-color: #8d6e63;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
         }
         
         .alias-info {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #8d6e63;
             font-style: italic;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-family: sans-serif; /* Use a more readable font for small text */
+            margin-top: 10px;
         }
         
         .info-card {
-            background: #f0e6d2;
-            border: 1px solid #d2b48c;
-            border-radius: 6px;
-            padding: 16px;
+            background: rgba(240, 230, 210, 0.7);
+            border: 2px solid #d2b48c;
+            border-radius: 10px;
+            padding: 20px;
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.15), inset 0 0 20px rgba(139, 69, 19, 0.05);
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(139, 69, 19, 0.2), inset 0 0 25px rgba(139, 69, 19, 0.08);
         }
         
         .info-icon {
             color: #8d6e63;
-            margin-top: 2px;
+            margin-top: 4px;
+            font-size: 1.2rem;
         }
         
         .info-title {
-            font-weight: 500;
+            font-weight: 600;
             color: #5d4037;
-            margin-bottom: 4px;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            margin-bottom: 6px;
+            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
+            font-size: 1.05rem;
         }
         
         .info-text {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: #795548;
-            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            font-family: sans-serif; /* Use a more readable font for small text */
         }
         
         @media (max-width: 640px) {
             .title {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .search-card {
-                padding: 24px;
+                padding: 30px;
             }
         }
     </style>
@@ -223,7 +229,7 @@
     <div class="container">
         <!-- 标题区域 -->
         <div class="header">
-            <h1 class="title">NoFeed 直达</h1>
+            <h1 class="title">DirectGo 直达</h1>
             <p class="subtitle">专注搜索，拒绝信息流</p>
             <p class="description">直达搜索结果，避免被推荐内容分散注意力</p>
         </div>
