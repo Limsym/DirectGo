@@ -155,11 +155,12 @@
             padding: 10px 20px;
             border-radius: 25px;
             font-size: 0.95rem;
-            cursor: pointer;
+            cursor: grab;
             transition: all 0.3s ease;
             border: 2px solid #d2b48c;
             font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
             box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
+            user-select: none;
         }
         
         .platform-tag:hover {
@@ -173,6 +174,18 @@
             color: #f5e7c1;
             border-color: #8d6e63;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .platform-tag.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+            cursor: grabbing;
+            z-index: 1000;
+        }
+
+        .platform-tag.drag-over {
+            background: #c8b99c;
+            transform: scale(1.05);
         }
         
         .alias-info {
@@ -256,16 +269,17 @@
         <!-- 常用平台快捷按钮 -->
         <div class="platforms">
             <p class="platforms-title">常用平台快捷选择:</p>
-            <div class="platform-tags">
-                <button class="platform-tag" onclick="selectPlatform('zhihu')">知乎</button>
-                <button class="platform-tag" onclick="selectPlatform('xiaohongshu')">小红书</button>
-                <button class="platform-tag" onclick="selectPlatform('weibo')">微博</button>
-                <button class="platform-tag" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
-                <button class="platform-tag" onclick="selectPlatform('bing')">Bing</button>
-                <button class="platform-tag" onclick="selectPlatform('amap')">高德地图</button>
+            <div class="platform-tags" id="platform-tags">
+                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform('zhihu')">知乎</button>
+                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform('xiaohongshu')">小红书</button>
+                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform('weibo')">微博</button>
+                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
+                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform('bing')">Bing</button>
+                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform('amap')">高德地图</button>
             </div>
             <p class="alias-info">
-                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap
+                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap<br>
+                <small style="color: #a0896b;">💡 提示：可拖动平台卡片调整顺序，排序会自动保存</small>
             </p>
         </div>
 
@@ -393,7 +407,7 @@
             event.target.classList.add('active');
         }
 
-        // 键盘事件处理
+        // 键盘事件处理和拖拽功能初始化
         document.addEventListener('DOMContentLoaded', function() {
             const platformInput = document.getElementById('platform-input');
             const keywordInput = document.getElementById('keyword-input');
@@ -409,7 +423,119 @@
                     handleSearch();
                 }
             });
+
+            // 初始化拖拽功能
+            initializeDragAndDrop();
+            // 加载保存的排序
+            loadPlatformOrder();
         });
+
+        // 拖拽功能相关变量
+        let draggedElement = null;
+
+        // 初始化拖拽功能
+        function initializeDragAndDrop() {
+            const platformTags = document.querySelectorAll('.platform-tag');
+            
+            platformTags.forEach(tag => {
+                tag.addEventListener('dragstart', handleDragStart);
+                tag.addEventListener('dragover', handleDragOver);
+                tag.addEventListener('drop', handleDrop);
+                tag.addEventListener('dragend', handleDragEnd);
+                tag.addEventListener('dragenter', handleDragEnter);
+                tag.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+
+        // 拖拽开始
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        // 拖拽经过
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        // 拖拽进入
+        function handleDragEnter(e) {
+            if (this !== draggedElement) {
+                this.classList.add('drag-over');
+            }
+        }
+
+        // 拖拽离开
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        // 放置
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (draggedElement !== this) {
+                const container = document.getElementById('platform-tags');
+                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
+                const targetIndex = Array.from(container.children).indexOf(this);
+
+                if (draggedIndex < targetIndex) {
+                    container.insertBefore(draggedElement, this.nextSibling);
+                } else {
+                    container.insertBefore(draggedElement, this);
+                }
+
+                // 保存新的排序
+                savePlatformOrder();
+            }
+
+            return false;
+        }
+
+        // 拖拽结束
+        function handleDragEnd(e) {
+            document.querySelectorAll('.platform-tag').forEach(tag => {
+                tag.classList.remove('dragging', 'drag-over');
+            });
+            draggedElement = null;
+        }
+
+        // 保存平台排序到本地存储
+        function savePlatformOrder() {
+            const container = document.getElementById('platform-tags');
+            const order = Array.from(container.children).map(tag => tag.getAttribute('data-platform'));
+            localStorage.setItem('nofeed-platform-order', JSON.stringify(order));
+        }
+
+        // 从本地存储加载平台排序
+        function loadPlatformOrder() {
+            const savedOrder = localStorage.getItem('nofeed-platform-order');
+            if (savedOrder) {
+                try {
+                    const order = JSON.parse(savedOrder);
+                    const container = document.getElementById('platform-tags');
+                    const tags = Array.from(container.children);
+                    
+                    // 按保存的顺序重新排列
+                    order.forEach(platformId => {
+                        const tag = tags.find(t => t.getAttribute('data-platform') === platformId);
+                        if (tag) {
+                            container.appendChild(tag);
+                        }
+                    });
+                } catch (e) {
+                    console.log('加载平台排序失败:', e);
+                }
+            }
+        }
     </script>
 </body>
 </html>
