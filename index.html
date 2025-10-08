@@ -382,7 +382,7 @@
                 name: '小红书',
                 aliases: ['xhs', 'xiaohongshu', '小红书'],
                 searchUrl: 'https://www.xiaohongshu.com/search_result?keyword={keyword}',
-                schemeUrl: 'xhs://search?keyword={keyword}',
+                schemeUrl: 'xhsdiscover://search?keyword={keyword}',
                 intentUrl: 'intent://search?keyword={keyword}#Intent;scheme=xhs;package=com.xingin.xhs;end',
             },
             {
@@ -390,8 +390,8 @@
                 name: '微博',
                 aliases: ['wb', 'weibo', '微博'],
                 searchUrl: 'https://s.weibo.com/weibo?q={keyword}',
-                schemeUrl: 'weibo://search?keyword={keyword}',
-                intentUrl: 'intent://search?keyword={keyword}#Intent;scheme=weibo;package=com.sina.weibo;end',
+                schemeUrl: '', // 微博暂不支持直接搜索的 Scheme 链接
+                intentUrl: '', // 微博暂不支持直接搜索的 Intent 链接
             },
             {
                 id: 'bilibili',
