@@ -349,16 +349,21 @@
         <!-- 常用平台快捷按钮 -->
         <div class="platforms">
             <p class="platforms-title">常用平台快捷选择:</p>
-            <div class="platform-tags" id="platform-tags">
-                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform('zhihu')">知乎</button>
-                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform('xiaohongshu')">小红书</button>
-                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform('weibo')">微博</button>
-                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
-                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform('bing')">Bing</button>
-                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform('amap')">高德地图</button>
+<div class="platform-tags" id="platform-tags">
+                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform(\'zhihu\')">知乎</button>
+                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform(\'xiaohongshu\')">小红书</button>
+                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform(\'weibo\')">微博</button>
+                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform(\'bilibili\')">哔哩哔哩</button>
+                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform(\'bing\')">Bing</button>
+                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform(\'amap\')">高德地图</button>
+                <button class="platform-tag" draggable="true" data-platform="pubchem" onclick="selectPlatform(\'pubchem\')">PubChem</button>
+                <button class="platform-tag" draggable="true" data-platform="taobao" onclick="selectPlatform(\'taobao\')">淘宝</button>
+                <button class="platform-tag" draggable="true" data-platform="jd" onclick="selectPlatform(\'jd\')">京东</button>
+                <button class="platform-tag" draggable="true" data-platform="pubmed" onclick="selectPlatform(\'pubmed\')">PubMed</button>
+                <button class="platform-tag" draggable="true" data-platform="sciencedirect" onclick="selectPlatform(\'sciencedirect\')">ScienceDirect</button>
             </div>
             <p class="alias-info">
-                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap<br>
+            支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap, PubChem/pc, 淘宝/tb, 京东/jd, PubMed/pm, ScienceDirect/sd<br>
                 <small style="color: #a0896b;">💡 提示：可拖动平台卡片调整顺序，排序会自动保存</small>
             </p>
         </div>
@@ -412,6 +417,40 @@
                 name: '高德地图',
                 aliases: ['amap', '高德', '高德地图'],
                 searchUrl: 'https://ditu.amap.com/search?query={keyword}',
+            },
+            {
+                id: 'pubmed',
+                name: 'PubMed',
+                aliases: ['pubmed', 'pm'],
+                searchUrl: 'https://pubmed.ncbi.nlm.nih.gov/?term={keyword}',
+            },
+            {
+                id: 'sciencedirect',
+                name: 'ScienceDirect',
+                aliases: ['sciencedirect', 'sd'],
+                searchUrl: 'https://www.sciencedirect.com/search?qs={keyword}',
+            },
+            {
+                id: 'pubchem',
+                name: 'PubChem',
+                aliases: ['pubchem', 'pc'],
+                searchUrl: 'https://pubchem.ncbi.nlm.nih.gov/#query={keyword}',
+            },
+            {
+                id: 'taobao',
+                name: '淘宝',
+                aliases: ['taobao', 'tb', '淘宝'],
+                searchUrl: 'https://s.taobao.com/search?q={keyword}',
+                schemeUrl: 'taobao://s.taobao.com/?q={keyword}',
+                intentUrl: 'intent://s.taobao.com/?q={keyword}#Intent;scheme=taobao;package=com.taobao.taobao;end',
+            },
+            {
+                id: 'jd',
+                name: '京东',
+                aliases: ['jd', '京东'],
+                searchUrl: 'https://search.jd.com/Search?keyword={keyword}',
+                schemeUrl: 'openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%2C%22category%22%3A%22jump%22%7D',
+                intentUrl: 'intent://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%2C%22category%22%3A%22jump%22%7D#Intent;scheme=openapp.jdmobile;package=com.jingdong.app.mall;end',
             }
         ];
 
