@@ -197,53 +197,6 @@
             margin-top: 10px;
         }
 
-        .browse-options {
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
-        }
-
-        .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-            color: #5d4037;
-            cursor: pointer;
-            font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
-        }
-
-        .radio-label input[type="radio"] {
-            margin-right: 8px;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid #a1887f;
-            border-radius: 50%;
-            outline: none;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .radio-label input[type="radio"]:checked {
-            background-color: #8d6e63;
-            border-color: #795548;
-        }
-
-        .radio-label input[type="radio"]:checked::before {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 8px;
-            background-color: #f5e7c1;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-
         .message {
             position: fixed;
             top: 20px;
@@ -321,24 +274,6 @@
                 尝试搜索：知乎 如何学习Python | 小红书 春季穿搭
             </p>
 
-            <div class="form-group">
-                <label class="label">浏览方式</label>
-                <div class="browse-options">
-                    <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="web" checked>
-                        Web
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="scheme">
-                        Scheme
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="intent">
-                        Intent
-                    </label>
-                </div>
-            </div>
-
             <button class="search-btn" onclick="handleSearch()">
                 <span>🔍</span>
                 <span>搜索</span>
@@ -349,21 +284,16 @@
         <!-- 常用平台快捷按钮 -->
         <div class="platforms">
             <p class="platforms-title">常用平台快捷选择:</p>
-<div class="platform-tags" id="platform-tags">
-                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform(\'bing\')">Bing</button>
-                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform(\'xiaohongshu\')">小红书</button>
-                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform(\'bilibili\')">哔哩哔哩</button>
-                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform(\'zhihu\')">知乎</button>
-                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform(\'amap\')">高德地图</button>
-                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform(\'weibo\')">微博</button>
-                <button class="platform-tag" draggable="true" data-platform="taobao" onclick="selectPlatform(\'taobao\')">淘宝</button>
-                <button class="platform-tag" draggable="true" data-platform="jd" onclick="selectPlatform(\'jd\')">京东</button>
-                <button class="platform-tag" draggable="true" data-platform="pubmed" onclick="selectPlatform(\'pubmed\')">PubMed</button>
-                <button class="platform-tag" draggable="true" data-platform="sciencedirect" onclick="selectPlatform(\'sciencedirect\')">ScienceDirect</button>
-                <button class="platform-tag" draggable="true" data-platform="pubchem" onclick="selectPlatform(\'pubchem\')">PubChem</button>
+            <div class="platform-tags" id="platform-tags">
+                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform('zhihu')">知乎</button>
+                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform('xiaohongshu')">小红书</button>
+                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform('weibo')">微博</button>
+                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
+                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform('bing')">Bing</button>
+                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform('amap')">高德地图</button>
             </div>
             <p class="alias-info">
-            支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap, PubChem/pc, 淘宝/tb, 京东/jd, PubMed/pm, ScienceDirect/sd<br>
+                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap<br>
                 <small style="color: #a0896b;">💡 提示：可拖动平台卡片调整顺序，排序会自动保存</small>
             </p>
         </div>
@@ -379,32 +309,24 @@
                 name: '知乎',
                 aliases: ['zh', 'zhihu', '知乎'],
                 searchUrl: 'https://www.zhihu.com/search?type=content&q={keyword}',
-                schemeUrl: 'zhihu://search?query={keyword}',
-                intentUrl: 'intent://search?query={keyword}#Intent;scheme=zhihu;package=com.zhihu.android;end',
             },
             {
                 id: 'xiaohongshu',
                 name: '小红书',
                 aliases: ['xhs', 'xiaohongshu', '小红书'],
                 searchUrl: 'https://www.xiaohongshu.com/search_result?keyword={keyword}',
-                schemeUrl: 'xhsdiscover://search?keyword={keyword}',
-                intentUrl: 'intent://search?keyword={keyword}#Intent;scheme=xhs;package=com.xingin.xhs;end',
             },
             {
                 id: 'weibo',
                 name: '微博',
                 aliases: ['wb', 'weibo', '微博'],
                 searchUrl: 'https://s.weibo.com/weibo?q={keyword}',
-                schemeUrl: '', // 微博暂不支持直接搜索的 Scheme 链接
-                intentUrl: '', // 微博暂不支持直接搜索的 Intent 链接
             },
             {
                 id: 'bilibili',
                 name: '哔哩哔哩',
                 aliases: ['bl', 'bilibili', '哔哩哔哩', 'b站'],
                 searchUrl: 'https://search.bilibili.com/all?keyword={keyword}',
-                schemeUrl: 'bilibili://search?keyword={keyword}',
-                intentUrl: 'intent://search?keyword={keyword}#Intent;scheme=bilibili;package=tv.danmaku.bili;end',
             },
             {
                 id: 'bing',
@@ -417,40 +339,6 @@
                 name: '高德地图',
                 aliases: ['amap', '高德', '高德地图'],
                 searchUrl: 'https://ditu.amap.com/search?query={keyword}',
-            },
-            {
-                id: 'pubmed',
-                name: 'PubMed',
-                aliases: ['pubmed', 'pm'],
-                searchUrl: 'https://pubmed.ncbi.nlm.nih.gov/?term={keyword}',
-            },
-            {
-                id: 'sciencedirect',
-                name: 'ScienceDirect',
-                aliases: ['sciencedirect', 'sd'],
-                searchUrl: 'https://www.sciencedirect.com/search?qs={keyword}',
-            },
-            {
-                id: 'pubchem',
-                name: 'PubChem',
-                aliases: ['pubchem', 'pc'],
-                searchUrl: 'https://pubchem.ncbi.nlm.nih.gov/#query={keyword}',
-            },
-            {
-                id: 'taobao',
-                name: '淘宝',
-                aliases: ['taobao', 'tb', '淘宝'],
-                searchUrl: 'https://s.taobao.com/search?q={keyword}',
-                schemeUrl: 'taobao://s.taobao.com/?q={keyword}',
-                intentUrl: 'intent://s.taobao.com/?q={keyword}#Intent;scheme=taobao;package=com.taobao.taobao;end',
-            },
-            {
-                id: 'jd',
-                name: '京东',
-                aliases: ['jd', '京东'],
-                searchUrl: 'https://search.jd.com/Search?keyword={keyword}',
-                schemeUrl: 'openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%2C%22category%22%3A%22jump%22%7D',
-                intentUrl: 'intent://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%2C%22category%22%3A%22jump%22%7D#Intent;scheme=openapp.jdmobile;package=com.jingdong.app.mall;end',
             }
         ];
 
@@ -460,17 +348,6 @@
                 p.id === alias.toLowerCase() || 
                 p.aliases.some(a => a.toLowerCase() === alias.toLowerCase())
             );
-        }
-
-        // 获取选中的浏览方式
-        function getSelectedBrowseMode() {
-            const radios = document.getElementsByName("browse-mode");
-            for (let i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    return radios[i].value;
-                }
-            }
-            return "web"; // 默认返回web
         }
 
         // 处理搜索
@@ -517,33 +394,16 @@
                 keywordInput.value = keyword; // 更新输入框内容
                 showMessage('已自动交换输入框', 'success');
             }
+
             // 对关键词进行URL编码
             const encodedKeyword = encodeURIComponent(keyword);
             
-            // 获取选中的浏览方式
-            const browseMode = getSelectedBrowseMode();
-            let targetUrl = '';
-
-            if (browseMode === 'web') {
-                targetUrl = platformInfo.searchUrl.replace('{keyword}', encodedKeyword);
-            } else if (browseMode === 'scheme') {
-                if (platformInfo.schemeUrl) {
-                    targetUrl = platformInfo.schemeUrl.replace('{keyword}', encodedKeyword);
-                } else {
-                    showMessage(`当前平台不支持 Scheme 方式: ${platformInfo.name}`, 'error');
-                    return;
-                }
-            } else if (browseMode === 'intent') {
-                if (platformInfo.intentUrl) {
-                    targetUrl = platformInfo.intentUrl.replace('{keyword}', encodedKeyword);
-                } else {
-                    showMessage(`当前平台不支持 Intent 方式: ${platformInfo.name}`, 'error');
-                    return;
-                }
-            }
+            // 生成搜索URL
+            const searchUrl = platformInfo.searchUrl.replace('{keyword}', encodedKeyword);
             
             // 直接跳转到目标平台的搜索结果页
-            window.open(targetUrl, '_blank');        }
+            window.open(searchUrl, '_blank');
+        }
 
         // 显示提示信息
         function showMessage(message, type) {
@@ -557,19 +417,16 @@
         }
 
         // 选择平台
-     function selectPlatform(platformId) {
-            const platformInput = document.getElementById(\'platform-input\');
+        function selectPlatform(platformId) {
+            const platformInput = document.getElementById('platform-input');
             platformInput.value = platformId;
             
             // 更新按钮状态
             document.querySelectorAll('.platform-tag').forEach(btn => {
                 btn.classList.remove('active');
             });
-            const clickedButton = document.querySelector(`[data-platform="${platformId}"]`);
-            if (clickedButton) {
-                clickedButton.classList.add('active');
-            }
-        } // 修正 selectPlatform 函数的结束位置
+            event.target.classList.add('active');
+        }
 
         // 键盘事件处理和拖拽功能初始化
         document.addEventListener('DOMContentLoaded', function() {
