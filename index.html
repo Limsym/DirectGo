@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <meta name="description" content="DirectGo直达提供纯净搜索体验，直接获取知乎、微博、小红书、哔哩哔哩等平台内容，无信息流干扰。支持平台别名快捷搜索，提升信息获取效率。">
+    <meta name="description" content="DirectGo 直达常用平台搜索，少干扰、更高效。支持知乎、微博、小红书、哔哩哔哩等平台。">
     <meta name="google-site-verification" content="nXbYRKUwXwReStmNMFc4euXmHP3ZDSE7eVSnOjnof7U" />
-    <title>DirectGo 直达 - 专注搜索，拒绝信息流 | 直达知乎/微博/小红书等平台内容</title>
+    <title>DirectGo 直达 | 常用平台搜索入口</title>
     <style>
         * {
             margin: 0;
@@ -291,55 +291,55 @@
         <!-- 标题区域 -->
         <div class="header">
             <h1 class="title">DirectGo 直达</h1>
-            <p class="subtitle">DirectGo直达提供纯净搜索体验，直接获取各大平台内容，避免被推荐内容分散注意力</p>
+            <p class="subtitle">一个搜索框，直达常用平台</p>
 
         </div>
 
         <!-- 搜索区域 -->
         <div class="search-card">
             <div class="form-group">
-                <label class="label">平台 (输入平台名称或别名)</label>
+                <label class="label" for="platform-input">平台（可填别名）</label>
                 <input 
                     type="text" 
                     class="input" 
                     id="platform-input"
-                    placeholder="例如: 知乎, zhihu, zh (留空默认Bing)"
+                    placeholder="如：知乎 / zh / xhs（留空默认 Bing）"
                 >
             </div>
 
             <div class="form-group">
-                <label class="label">搜索关键词</label>
+                <label class="label" for="keyword-input">关键词</label>
                 <input 
                     type="text" 
                     class="input" 
                     id="keyword-input"
-                    placeholder="输入你要搜索的内容..."
+                    placeholder="输入关键词"
                 >
             </div>
 
             <p class="alias-info" style="margin-top: -15px; margin-bottom: 20px;">
-                尝试搜索：知乎 如何学习Python | 小红书 春季穿搭
+                例：知乎 AI Agent｜小红书 春季穿搭
             </p>
 
             <div class="form-group">
-                <label class="label">浏览方式</label>
+                <label class="label">打开方式</label>
                 <div class="browse-options">
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="web" checked>
+                        <input type="radio" id="browse-mode-web" name="browse-mode" value="web" checked>
                         Web
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="scheme">
+                        <input type="radio" id="browse-mode-scheme" name="browse-mode" value="scheme">
                         Scheme
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="intent">
+                        <input type="radio" id="browse-mode-intent" name="browse-mode" value="intent">
                         Intent
                     </label>
                 </div>
             </div>
 
-            <button class="search-btn" onclick="handleSearch()">
+            <button class="search-btn" id="search-btn" type="button">
                 <span>🔍</span>
                 <span>搜索</span>
                 <span>→</span>
@@ -348,23 +348,23 @@
 
         <!-- 常用平台快捷按钮 -->
         <div class="platforms">
-            <p class="platforms-title">常用平台快捷选择:</p>
+            <p class="platforms-title">常用平台</p>
             <div class="platform-tags" id="platform-tags">
-                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform('zhihu')">知乎</button>
-                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform('xiaohongshu')">小红书</button>
-                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform('weibo')">微博</button>
-                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
-                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform('bing')">Bing</button>
-                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform('amap')">高德地图</button>
+                <button class="platform-tag" draggable="true" data-platform="zhihu" type="button">知乎</button>
+                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" type="button">小红书</button>
+                <button class="platform-tag" draggable="true" data-platform="weibo" type="button">微博</button>
+                <button class="platform-tag" draggable="true" data-platform="bilibili" type="button">哔哩哔哩</button>
+                <button class="platform-tag" draggable="true" data-platform="bing" type="button">Bing</button>
+                <button class="platform-tag" draggable="true" data-platform="amap" type="button">高德地图</button>
             </div>
             <p class="alias-info">
-                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap<br>
-                <small style="color: #a0896b;">💡 提示：可拖动平台卡片调整顺序，排序会自动保存</small>
+                支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德/amap<br>
+                <small style="color: #a0896b;">💡 可拖动排序，自动保存</small>
             </p>
         </div>
 
         <!-- 消息提示区域 -->
-        <div id="message-div" class="message" style="display: none;"></div>
+        <div id="message-div" class="message" role="status" aria-live="polite" style="display: none;"></div>
 
     <script>
         // 支持的平台配置
@@ -504,7 +504,8 @@
             }
             
             // 直接跳转到目标平台的搜索结果页
-            window.open(targetUrl, '_blank');        }
+            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+        }
 
         // 显示提示信息
         function showMessage(message, type) {
@@ -518,7 +519,7 @@
         }
 
         // 选择平台
-        function selectPlatform(platformId) {
+        function selectPlatform(platformId, sourceElement) {
             const platformInput = document.getElementById('platform-input');
             platformInput.value = platformId;
             
@@ -526,21 +527,35 @@
             document.querySelectorAll('.platform-tag').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+
+            if (sourceElement) {
+                sourceElement.classList.add('active');
+            }
         }
 
         // 键盘事件处理和拖拽功能初始化
         document.addEventListener('DOMContentLoaded', function() {
             const platformInput = document.getElementById('platform-input');
             const keywordInput = document.getElementById('keyword-input');
+            const searchBtn = document.getElementById('search-btn');
+            const platformTagButtons = document.querySelectorAll('.platform-tag');
+
+            searchBtn.addEventListener('click', handleSearch);
+
+            platformTagButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const platformId = this.getAttribute('data-platform');
+                    selectPlatform(platformId, this);
+                });
+            });
             
-            platformInput.addEventListener('keypress', function(e) {
+            platformInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     handleSearch();
                 }
             });
             
-            keywordInput.addEventListener('keypress', function(e) {
+            keywordInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     handleSearch();
                 }
@@ -661,4 +676,3 @@
     </script>
 </body>
 </html>
-
