@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <meta name="description" content="DirectGo直达提供纯净搜索体验，直接获取知乎、微博、小红书、哔哩哔哩等平台内容，无信息流干扰。支持平台别名快捷搜索，提升信息获取效率。">
+    <meta name="description" content="DirectGo 直达常用平台搜索，少干扰、更高效。支持知乎、微博、小红书、哔哩哔哩等平台。">
     <meta name="google-site-verification" content="nXbYRKUwXwReStmNMFc4euXmHP3ZDSE7eVSnOjnof7U" />
-    <title>DirectGo 直达 - 专注搜索，拒绝信息流 | 直达知乎/微博/小红书等平台内容</title>
+    <title>DirectGo 直达 | 常用平台搜索入口</title>
     <style>
         * {
             margin: 0;
@@ -162,6 +162,8 @@
             font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
             box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
             user-select: none;
+            touch-action: none;
+            -webkit-user-drag: none;
         }
         
         .platform-tag:hover {
@@ -201,6 +203,51 @@
             display: flex;
             gap: 20px;
             margin-top: 10px;
+        }
+
+        .mode-hint {
+            font-size: 0.78rem;
+            color: #8d6e63;
+            margin-top: 8px;
+            font-family: sans-serif;
+        }
+
+        .platform-actions {
+            margin-top: 8px;
+        }
+
+        .text-btn {
+            background: transparent;
+            border: 1px solid #cbb28f;
+            border-radius: 6px;
+            color: #6d4c41;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        .text-btn:hover {
+            background: rgba(210, 180, 140, 0.2);
+        }
+
+        .help-details {
+            margin-top: 10px;
+            color: #8d6e63;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+
+        .help-details summary {
+            cursor: pointer;
+            user-select: none;
+            color: #795548;
+            font-weight: 600;
+        }
+
+        .help-details-content {
+            margin-top: 8px;
+            line-height: 1.5;
+            font-style: italic;
         }
 
         .radio-label {
@@ -264,6 +311,22 @@
         .message.error {
             background-color: #f44336;
         }
+
+        .message.warning {
+            background-color: #ff9800;
+        }
+
+        .version-watermark {
+            position: fixed;
+            right: 14px;
+            bottom: 10px;
+            font-size: 0.75rem;
+            color: rgba(93, 64, 55, 0.65);
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            letter-spacing: 0.5px;
+            user-select: none;
+            pointer-events: none;
+        }
         
         @media (max-width: 640px) {
             .title {
@@ -291,55 +354,61 @@
         <!-- 标题区域 -->
         <div class="header">
             <h1 class="title">DirectGo 直达</h1>
-            <p class="subtitle">DirectGo直达提供纯净搜索体验，直接获取各大平台内容，避免被推荐内容分散注意力</p>
+            <p class="subtitle">一个搜索框，直达常用平台</p>
 
         </div>
 
         <!-- 搜索区域 -->
         <div class="search-card">
             <div class="form-group">
-                <label class="label">平台 (输入平台名称或别名)</label>
+                <label class="label" for="platform-input">平台（可填别名）</label>
                 <input 
                     type="text" 
                     class="input" 
                     id="platform-input"
-                    placeholder="例如: 知乎, zhihu, zh (留空默认Bing)"
+                    placeholder="如：知乎 / zh / xhs（留空默认 Bing）"
                 >
             </div>
 
             <div class="form-group">
-                <label class="label">搜索关键词</label>
+                <label class="label" for="keyword-input">关键词</label>
                 <input 
                     type="text" 
                     class="input" 
                     id="keyword-input"
-                    placeholder="输入你要搜索的内容..."
+                    placeholder="输入关键词"
                 >
             </div>
 
-            <p class="alias-info" style="margin-top: -15px; margin-bottom: 20px;">
-                尝试搜索：知乎 如何学习Python | 小红书 春季穿搭
-            </p>
+            <details class="help-details" style="margin-top: -15px; margin-bottom: 20px;">
+                <summary>查看示例与别名</summary>
+                <div class="help-details-content">
+                    例：知乎 AI Agent｜小红书 春季穿搭<br>
+                    支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德/amap<br>
+                    快捷命令：在关键词输入框直接输入「zh AI Agent」也可自动识别平台
+                </div>
+            </details>
 
             <div class="form-group">
-                <label class="label">浏览方式</label>
+                <label class="label">打开方式</label>
                 <div class="browse-options">
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="web" checked>
+                        <input type="radio" id="browse-mode-web" name="browse-mode" value="web" checked>
                         Web
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="scheme">
+                        <input type="radio" id="browse-mode-scheme" name="browse-mode" value="scheme">
                         Scheme
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="browse-mode" value="intent">
+                        <input type="radio" id="browse-mode-intent" name="browse-mode" value="intent">
                         Intent
                     </label>
                 </div>
+                <p class="mode-hint">Web 通用；Scheme/Intent 优先调起 App，不支持时自动回退 Web。</p>
             </div>
 
-            <button class="search-btn" onclick="handleSearch()">
+            <button class="search-btn" id="search-btn" type="button">
                 <span>🔍</span>
                 <span>搜索</span>
                 <span>→</span>
@@ -348,23 +417,26 @@
 
         <!-- 常用平台快捷按钮 -->
         <div class="platforms">
-            <p class="platforms-title">常用平台快捷选择:</p>
+            <p class="platforms-title">常用平台</p>
             <div class="platform-tags" id="platform-tags">
-                <button class="platform-tag" draggable="true" data-platform="zhihu" onclick="selectPlatform('zhihu')">知乎</button>
-                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" onclick="selectPlatform('xiaohongshu')">小红书</button>
-                <button class="platform-tag" draggable="true" data-platform="weibo" onclick="selectPlatform('weibo')">微博</button>
-                <button class="platform-tag" draggable="true" data-platform="bilibili" onclick="selectPlatform('bilibili')">哔哩哔哩</button>
-                <button class="platform-tag" draggable="true" data-platform="bing" onclick="selectPlatform('bing')">Bing</button>
-                <button class="platform-tag" draggable="true" data-platform="amap" onclick="selectPlatform('amap')">高德地图</button>
+                <button class="platform-tag" draggable="true" data-platform="zhihu" type="button">知乎</button>
+                <button class="platform-tag" draggable="true" data-platform="xiaohongshu" type="button">小红书</button>
+                <button class="platform-tag" draggable="true" data-platform="weibo" type="button">微博</button>
+                <button class="platform-tag" draggable="true" data-platform="bilibili" type="button">哔哩哔哩</button>
+                <button class="platform-tag" draggable="true" data-platform="bing" type="button">Bing</button>
+                <button class="platform-tag" draggable="true" data-platform="amap" type="button">高德地图</button>
             </div>
-            <p class="alias-info">
-                支持中文名称和别名: 知乎/zh, 小红书/xhs, 微博/wb, 哔哩哔哩/bl/b站, 必应/bing, 高德/amap<br>
-                <small style="color: #a0896b;">💡 提示：可拖动平台卡片调整顺序，排序会自动保存</small>
-            </p>
+            <div class="platform-actions">
+                <button id="reset-order-btn" class="text-btn" type="button">恢复默认排序</button>
+            </div>
+            <p class="alias-info"><small style="color: #a0896b;">💡 可拖动排序，自动保存</small></p>
         </div>
 
         <!-- 消息提示区域 -->
-        <div id="message-div" class="message" style="display: none;"></div>
+        <div id="message-div" class="message" role="status" aria-live="polite" style="display: none;"></div>
+
+        <!-- 版本日期水印 -->
+        <div class="version-watermark">版本日期：2026-03-08</div>
 
     <script>
         // 支持的平台配置
@@ -414,6 +486,7 @@
                 searchUrl: 'https://ditu.amap.com/search?query={keyword}',
             }
         ];
+        const defaultPlatformOrder = platforms.map(p => p.id);
 
         // 根据别名获取平台信息
         function getPlatformByAlias(alias) {
@@ -441,6 +514,20 @@
 
             let platform = platformInput.value.trim();
             let keyword = keywordInput.value.trim();
+
+            // 支持单框快捷命令：平台别名 + 空格 + 关键词（如: zh AI Agent）
+            if (!platform && keyword.includes(' ')) {
+                const firstSpaceIndex = keyword.indexOf(' ');
+                const possiblePlatform = keyword.slice(0, firstSpaceIndex).trim();
+                const possibleKeyword = keyword.slice(firstSpaceIndex + 1).trim();
+                const fastPlatformInfo = getPlatformByAlias(possiblePlatform);
+                if (fastPlatformInfo && possibleKeyword) {
+                    platform = fastPlatformInfo.id;
+                    keyword = possibleKeyword;
+                    platformInput.value = platform;
+                    keywordInput.value = keyword;
+                }
+            }
 
             if (!keyword) {
                 showMessage("请输入搜索关键词", "error");
@@ -491,20 +578,21 @@
                 if (platformInfo.schemeUrl) {
                     targetUrl = platformInfo.schemeUrl.replace('{keyword}', encodedKeyword);
                 } else {
-                    showMessage(`当前平台不支持 Scheme 方式: ${platformInfo.name}`, 'error');
-                    return;
+                    targetUrl = platformInfo.searchUrl.replace('{keyword}', encodedKeyword);
+                    showMessage(`该平台不支持 Scheme，已回退到 Web：${platformInfo.name}`, 'warning');
                 }
             } else if (browseMode === 'intent') {
                 if (platformInfo.intentUrl) {
                     targetUrl = platformInfo.intentUrl.replace('{keyword}', encodedKeyword);
                 } else {
-                    showMessage(`当前平台不支持 Intent 方式: ${platformInfo.name}`, 'error');
-                    return;
+                    targetUrl = platformInfo.searchUrl.replace('{keyword}', encodedKeyword);
+                    showMessage(`该平台不支持 Intent，已回退到 Web：${platformInfo.name}`, 'warning');
                 }
             }
             
             // 直接跳转到目标平台的搜索结果页
-            window.open(targetUrl, '_blank');        }
+            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+        }
 
         // 显示提示信息
         function showMessage(message, type) {
@@ -518,7 +606,7 @@
         }
 
         // 选择平台
-        function selectPlatform(platformId) {
+        function selectPlatform(platformId, sourceElement) {
             const platformInput = document.getElementById('platform-input');
             platformInput.value = platformId;
             
@@ -526,22 +614,58 @@
             document.querySelectorAll('.platform-tag').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+
+            if (sourceElement) {
+                sourceElement.classList.add('active');
+            }
         }
 
         // 键盘事件处理和拖拽功能初始化
         document.addEventListener('DOMContentLoaded', function() {
             const platformInput = document.getElementById('platform-input');
             const keywordInput = document.getElementById('keyword-input');
+            const searchBtn = document.getElementById('search-btn');
+            const resetOrderBtn = document.getElementById('reset-order-btn');
+            const platformTagButtons = document.querySelectorAll('.platform-tag');
+
+            searchBtn.addEventListener('click', handleSearch);
+            resetOrderBtn.addEventListener('click', resetPlatformOrder);
+
+            platformTagButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (suppressClickAfterTouchDrag) {
+                        return;
+                    }
+                    const platformId = this.getAttribute('data-platform');
+                    selectPlatform(platformId, this);
+                });
+            });
             
-            platformInput.addEventListener('keypress', function(e) {
+            platformInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     handleSearch();
                 }
             });
             
-            keywordInput.addEventListener('keypress', function(e) {
+            keywordInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            // 快捷键：/ 聚焦关键词；Ctrl/Cmd + Enter 发起搜索
+            document.addEventListener('keydown', function(e) {
+                const activeTag = document.activeElement ? document.activeElement.tagName : '';
+                const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA';
+
+                if (e.key === '/' && !isTyping) {
+                    e.preventDefault();
+                    keywordInput.focus();
+                    return;
+                }
+
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
                     handleSearch();
                 }
             });
@@ -554,19 +678,46 @@
 
         // 拖拽功能相关变量
         let draggedElement = null;
+        let isTouchDragging = false;
+        let touchDropTarget = null;
+        let suppressClickAfterTouchDrag = false;
 
         // 初始化拖拽功能
         function initializeDragAndDrop() {
             const platformTags = document.querySelectorAll('.platform-tag');
             
             platformTags.forEach(tag => {
+                // 桌面端 HTML5 拖拽
                 tag.addEventListener('dragstart', handleDragStart);
                 tag.addEventListener('dragover', handleDragOver);
                 tag.addEventListener('drop', handleDrop);
                 tag.addEventListener('dragend', handleDragEnd);
                 tag.addEventListener('dragenter', handleDragEnter);
                 tag.addEventListener('dragleave', handleDragLeave);
+
+                // 移动端触摸拖拽（Android/iOS）
+                tag.addEventListener('touchstart', handleTouchStart, { passive: false });
+                tag.addEventListener('touchmove', handleTouchMove, { passive: false });
+                tag.addEventListener('touchend', handleTouchEnd);
+                tag.addEventListener('touchcancel', handleTouchCancel);
             });
+        }
+
+        // 根据目标平台卡片执行重排
+        function reorderPlatformTags(targetElement) {
+            if (!draggedElement || !targetElement || draggedElement === targetElement) {
+                return;
+            }
+
+            const container = document.getElementById('platform-tags');
+            const draggedIndex = Array.from(container.children).indexOf(draggedElement);
+            const targetIndex = Array.from(container.children).indexOf(targetElement);
+
+            if (draggedIndex < targetIndex) {
+                container.insertBefore(draggedElement, targetElement.nextSibling);
+            } else {
+                container.insertBefore(draggedElement, targetElement);
+            }
         }
 
         // 拖拽开始
@@ -605,15 +756,7 @@
             }
 
             if (draggedElement !== this) {
-                const container = document.getElementById('platform-tags');
-                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
-                const targetIndex = Array.from(container.children).indexOf(this);
-
-                if (draggedIndex < targetIndex) {
-                    container.insertBefore(draggedElement, this.nextSibling);
-                } else {
-                    container.insertBefore(draggedElement, this);
-                }
+                reorderPlatformTags(this);
 
                 // 保存新的排序
                 savePlatformOrder();
@@ -630,11 +773,71 @@
             draggedElement = null;
         }
 
+        // 触摸拖拽开始
+        function handleTouchStart(e) {
+            draggedElement = this;
+            isTouchDragging = true;
+            touchDropTarget = null;
+            this.classList.add('dragging');
+        }
+
+        // 触摸拖拽中
+        function handleTouchMove(e) {
+            if (!isTouchDragging || !draggedElement) {
+                return;
+            }
+
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            const tagTarget = target ? target.closest('.platform-tag') : null;
+
+            document.querySelectorAll('.platform-tag').forEach(tag => tag.classList.remove('drag-over'));
+
+            if (tagTarget && tagTarget !== draggedElement) {
+                tagTarget.classList.add('drag-over');
+                touchDropTarget = tagTarget;
+                suppressClickAfterTouchDrag = true;
+            }
+        }
+
+        // 触摸拖拽结束
+        function handleTouchEnd() {
+            if (isTouchDragging && draggedElement && touchDropTarget) {
+                reorderPlatformTags(touchDropTarget);
+                savePlatformOrder();
+            }
+
+            cleanupTouchDragState();
+        }
+
+        // 触摸拖拽取消
+        function handleTouchCancel() {
+            cleanupTouchDragState();
+        }
+
+        function cleanupTouchDragState() {
+            document.querySelectorAll('.platform-tag').forEach(tag => {
+                tag.classList.remove('dragging', 'drag-over');
+            });
+
+            draggedElement = null;
+            touchDropTarget = null;
+            isTouchDragging = false;
+
+            if (suppressClickAfterTouchDrag) {
+                setTimeout(() => {
+                    suppressClickAfterTouchDrag = false;
+                }, 0);
+            }
+        }
+
         // 保存平台排序到本地存储
         function savePlatformOrder() {
             const container = document.getElementById('platform-tags');
             const order = Array.from(container.children).map(tag => tag.getAttribute('data-platform'));
             localStorage.setItem('nofeed-platform-order', JSON.stringify(order));
+            showMessage('平台排序已保存', 'success');
         }
 
         // 从本地存储加载平台排序
@@ -645,9 +848,17 @@
                     const order = JSON.parse(savedOrder);
                     const container = document.getElementById('platform-tags');
                     const tags = Array.from(container.children);
+                    const mergedOrder = [...order];
+
+                    // 兼容老数据：补齐新增平台
+                    defaultPlatformOrder.forEach(platformId => {
+                        if (!mergedOrder.includes(platformId)) {
+                            mergedOrder.push(platformId);
+                        }
+                    });
                     
                     // 按保存的顺序重新排列
-                    order.forEach(platformId => {
+                    mergedOrder.forEach(platformId => {
                         const tag = tags.find(t => t.getAttribute('data-platform') === platformId);
                         if (tag) {
                             container.appendChild(tag);
@@ -658,7 +869,21 @@
                 }
             }
         }
+
+        function resetPlatformOrder() {
+            const container = document.getElementById('platform-tags');
+            const tags = Array.from(container.children);
+
+            defaultPlatformOrder.forEach(platformId => {
+                const tag = tags.find(t => t.getAttribute('data-platform') === platformId);
+                if (tag) {
+                    container.appendChild(tag);
+                }
+            });
+
+            savePlatformOrder();
+            showMessage('已恢复默认排序', 'success');
+        }
     </script>
 </body>
 </html>
-
