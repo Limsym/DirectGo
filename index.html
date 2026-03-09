@@ -212,6 +212,24 @@
             font-family: sans-serif;
         }
 
+        .platform-actions {
+            margin-top: 8px;
+        }
+
+        .text-btn {
+            background: transparent;
+            border: 1px solid #cbb28f;
+            border-radius: 6px;
+            color: #6d4c41;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        .text-btn:hover {
+            background: rgba(210, 180, 140, 0.2);
+        }
+
         .help-details {
             margin-top: 10px;
             color: #8d6e63;
@@ -366,7 +384,8 @@
                 <summary>查看示例与别名</summary>
                 <div class="help-details-content">
                     例：知乎 AI Agent｜小红书 春季穿搭<br>
-                    支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德/amap
+                    支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德/amap<br>
+                    快捷命令：在关键词输入框直接输入「zh AI Agent」也可自动识别平台
                 </div>
             </details>
 
@@ -406,6 +425,9 @@
                 <button class="platform-tag" draggable="true" data-platform="bilibili" type="button">哔哩哔哩</button>
                 <button class="platform-tag" draggable="true" data-platform="bing" type="button">Bing</button>
                 <button class="platform-tag" draggable="true" data-platform="amap" type="button">高德地图</button>
+            </div>
+            <div class="platform-actions">
+                <button id="reset-order-btn" class="text-btn" type="button">恢复默认排序</button>
             </div>
             <p class="alias-info"><small style="color: #a0896b;">💡 可拖动排序，自动保存</small></p>
         </div>
@@ -464,6 +486,7 @@
                 searchUrl: 'https://ditu.amap.com/search?query={keyword}',
             }
         ];
+        const defaultPlatformOrder = platforms.map(p => p.id);
 
         // 根据别名获取平台信息
         function getPlatformByAlias(alias) {
@@ -491,6 +514,20 @@
 
             let platform = platformInput.value.trim();
             let keyword = keywordInput.value.trim();
+
+            // 支持单框快捷命令：平台别名 + 空格 + 关键词（如: zh AI Agent）
+            if (!platform && keyword.includes(' ')) {
+                const firstSpaceIndex = keyword.indexOf(' ');
+                const possiblePlatform = keyword.slice(0, firstSpaceIndex).trim();
+                const possibleKeyword = keyword.slice(firstSpaceIndex + 1).trim();
+                const fastPlatformInfo = getPlatformByAlias(possiblePlatform);
+                if (fastPlatformInfo && possibleKeyword) {
+                    platform = fastPlatformInfo.id;
+                    keyword = possibleKeyword;
+                    platformInput.value = platform;
+                    keywordInput.value = keyword;
+                }
+            }
 
             if (!keyword) {
                 showMessage("请输入搜索关键词", "error");
@@ -588,9 +625,11 @@
             const platformInput = document.getElementById('platform-input');
             const keywordInput = document.getElementById('keyword-input');
             const searchBtn = document.getElementById('search-btn');
+            const resetOrderBtn = document.getElementById('reset-order-btn');
             const platformTagButtons = document.querySelectorAll('.platform-tag');
 
             searchBtn.addEventListener('click', handleSearch);
+            resetOrderBtn.addEventListener('click', resetPlatformOrder);
 
             platformTagButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -610,6 +649,23 @@
             
             keywordInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            // 快捷键：/ 聚焦关键词；Ctrl/Cmd + Enter 发起搜索
+            document.addEventListener('keydown', function(e) {
+                const activeTag = document.activeElement ? document.activeElement.tagName : '';
+                const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA';
+
+                if (e.key === '/' && !isTyping) {
+                    e.preventDefault();
+                    keywordInput.focus();
+                    return;
+                }
+
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
                     handleSearch();
                 }
             });
@@ -792,9 +848,17 @@
                     const order = JSON.parse(savedOrder);
                     const container = document.getElementById('platform-tags');
                     const tags = Array.from(container.children);
+                    const mergedOrder = [...order];
+
+                    // 兼容老数据：补齐新增平台
+                    defaultPlatformOrder.forEach(platformId => {
+                        if (!mergedOrder.includes(platformId)) {
+                            mergedOrder.push(platformId);
+                        }
+                    });
                     
                     // 按保存的顺序重新排列
-                    order.forEach(platformId => {
+                    mergedOrder.forEach(platformId => {
                         const tag = tags.find(t => t.getAttribute('data-platform') === platformId);
                         if (tag) {
                             container.appendChild(tag);
@@ -804,6 +868,21 @@
                     console.log('加载平台排序失败:', e);
                 }
             }
+        }
+
+        function resetPlatformOrder() {
+            const container = document.getElementById('platform-tags');
+            const tags = Array.from(container.children);
+
+            defaultPlatformOrder.forEach(platformId => {
+                const tag = tags.find(t => t.getAttribute('data-platform') === platformId);
+                if (tag) {
+                    container.appendChild(tag);
+                }
+            });
+
+            savePlatformOrder();
+            showMessage('已恢复默认排序', 'success');
         }
     </script>
 </body>
