@@ -266,6 +266,18 @@
         .message.error {
             background-color: #f44336;
         }
+
+        .version-watermark {
+            position: fixed;
+            right: 14px;
+            bottom: 10px;
+            font-size: 0.75rem;
+            color: rgba(93, 64, 55, 0.65);
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+            letter-spacing: 0.5px;
+            user-select: none;
+            pointer-events: none;
+        }
         
         @media (max-width: 640px) {
             .title {
@@ -367,6 +379,9 @@
 
         <!-- 消息提示区域 -->
         <div id="message-div" class="message" role="status" aria-live="polite" style="display: none;"></div>
+
+        <!-- 版本日期水印 -->
+        <div class="version-watermark">版本日期：2026-03-08</div>
 
     <script>
         // 支持的平台配置
