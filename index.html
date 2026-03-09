@@ -162,6 +162,8 @@
             font-family: 'STFangsong', 'KaiTi', 'LiSu', 'Palatino Linotype', serif;
             box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
             user-select: none;
+            touch-action: none;
+            -webkit-user-drag: none;
         }
         
         .platform-tag:hover {
@@ -544,6 +546,9 @@
 
             platformTagButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    if (suppressClickAfterTouchDrag) {
+                        return;
+                    }
                     const platformId = this.getAttribute('data-platform');
                     selectPlatform(platformId, this);
                 });
@@ -569,19 +574,46 @@
 
         // 拖拽功能相关变量
         let draggedElement = null;
+        let isTouchDragging = false;
+        let touchDropTarget = null;
+        let suppressClickAfterTouchDrag = false;
 
         // 初始化拖拽功能
         function initializeDragAndDrop() {
             const platformTags = document.querySelectorAll('.platform-tag');
             
             platformTags.forEach(tag => {
+                // 桌面端 HTML5 拖拽
                 tag.addEventListener('dragstart', handleDragStart);
                 tag.addEventListener('dragover', handleDragOver);
                 tag.addEventListener('drop', handleDrop);
                 tag.addEventListener('dragend', handleDragEnd);
                 tag.addEventListener('dragenter', handleDragEnter);
                 tag.addEventListener('dragleave', handleDragLeave);
+
+                // 移动端触摸拖拽（Android/iOS）
+                tag.addEventListener('touchstart', handleTouchStart, { passive: false });
+                tag.addEventListener('touchmove', handleTouchMove, { passive: false });
+                tag.addEventListener('touchend', handleTouchEnd);
+                tag.addEventListener('touchcancel', handleTouchCancel);
             });
+        }
+
+        // 根据目标平台卡片执行重排
+        function reorderPlatformTags(targetElement) {
+            if (!draggedElement || !targetElement || draggedElement === targetElement) {
+                return;
+            }
+
+            const container = document.getElementById('platform-tags');
+            const draggedIndex = Array.from(container.children).indexOf(draggedElement);
+            const targetIndex = Array.from(container.children).indexOf(targetElement);
+
+            if (draggedIndex < targetIndex) {
+                container.insertBefore(draggedElement, targetElement.nextSibling);
+            } else {
+                container.insertBefore(draggedElement, targetElement);
+            }
         }
 
         // 拖拽开始
@@ -620,15 +652,7 @@
             }
 
             if (draggedElement !== this) {
-                const container = document.getElementById('platform-tags');
-                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
-                const targetIndex = Array.from(container.children).indexOf(this);
-
-                if (draggedIndex < targetIndex) {
-                    container.insertBefore(draggedElement, this.nextSibling);
-                } else {
-                    container.insertBefore(draggedElement, this);
-                }
+                reorderPlatformTags(this);
 
                 // 保存新的排序
                 savePlatformOrder();
@@ -643,6 +667,65 @@
                 tag.classList.remove('dragging', 'drag-over');
             });
             draggedElement = null;
+        }
+
+        // 触摸拖拽开始
+        function handleTouchStart(e) {
+            draggedElement = this;
+            isTouchDragging = true;
+            touchDropTarget = null;
+            this.classList.add('dragging');
+        }
+
+        // 触摸拖拽中
+        function handleTouchMove(e) {
+            if (!isTouchDragging || !draggedElement) {
+                return;
+            }
+
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            const tagTarget = target ? target.closest('.platform-tag') : null;
+
+            document.querySelectorAll('.platform-tag').forEach(tag => tag.classList.remove('drag-over'));
+
+            if (tagTarget && tagTarget !== draggedElement) {
+                tagTarget.classList.add('drag-over');
+                touchDropTarget = tagTarget;
+                suppressClickAfterTouchDrag = true;
+            }
+        }
+
+        // 触摸拖拽结束
+        function handleTouchEnd() {
+            if (isTouchDragging && draggedElement && touchDropTarget) {
+                reorderPlatformTags(touchDropTarget);
+                savePlatformOrder();
+            }
+
+            cleanupTouchDragState();
+        }
+
+        // 触摸拖拽取消
+        function handleTouchCancel() {
+            cleanupTouchDragState();
+        }
+
+        function cleanupTouchDragState() {
+            document.querySelectorAll('.platform-tag').forEach(tag => {
+                tag.classList.remove('dragging', 'drag-over');
+            });
+
+            draggedElement = null;
+            touchDropTarget = null;
+            isTouchDragging = false;
+
+            if (suppressClickAfterTouchDrag) {
+                setTimeout(() => {
+                    suppressClickAfterTouchDrag = false;
+                }, 0);
+            }
         }
 
         // 保存平台排序到本地存储
