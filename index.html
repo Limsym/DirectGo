@@ -586,17 +586,20 @@
             let platform = platformInput.value.trim();
             let keyword = keywordInput.value.trim();
 
-            // 支持单框快捷命令：平台别名 + 空格 + 关键词（如: zh AI Agent）
-            if (!platform && keyword.includes(' ')) {
-                const firstSpaceIndex = keyword.indexOf(' ');
-                const possiblePlatform = keyword.slice(0, firstSpaceIndex).trim();
-                const possibleKeyword = keyword.slice(firstSpaceIndex + 1).trim();
-                const fastPlatformInfo = getPlatformByAlias(possiblePlatform);
-                if (fastPlatformInfo && possibleKeyword) {
-                    platform = fastPlatformInfo.id;
-                    keyword = possibleKeyword;
-                    platformInput.value = platform;
-                    keywordInput.value = keyword;
+            // 支持单框快捷命令：平台别名 + 空格 + 关键词（如: zh AI Agent / 知乎 今天）
+            // 兼容半角空格与中文输入法常见的全角空格(　)等任意空白
+            if (!platform) {
+                const quickMatch = keyword.match(/^(\S+)\s+([\s\S]+)$/);
+                if (quickMatch) {
+                    const possiblePlatform = quickMatch[1].trim();
+                    const possibleKeyword = quickMatch[2].trim();
+                    const fastPlatformInfo = getPlatformByAlias(possiblePlatform);
+                    if (fastPlatformInfo && possibleKeyword) {
+                        platform = fastPlatformInfo.id;
+                        keyword = possibleKeyword;
+                        platformInput.value = platform;
+                        keywordInput.value = keyword;
+                    }
                 }
             }
 
