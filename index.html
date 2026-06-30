@@ -484,6 +484,9 @@
                         <button class="platform-tag" draggable="true" data-platform="bilibili" type="button">哔哩哔哩</button>
                         <button class="platform-tag" draggable="true" data-platform="bing" type="button">Bing</button>
                         <button class="platform-tag" draggable="true" data-platform="amap" type="button">高德地图</button>
+                        <button class="platform-tag" draggable="true" data-platform="taobao" type="button">淘宝</button>
+                        <button class="platform-tag" draggable="true" data-platform="jd" type="button">京东</button>
+                        <button class="platform-tag" draggable="true" data-platform="pinduoduo" type="button">拼多多</button>
                     </div>
                     <div class="reset-row">
                         <span class="alias-info">拖动调整顺序，自动保存</span>
@@ -495,7 +498,7 @@
                     <summary>查看示例与别名</summary>
                     <div class="help-details-content">
                         例：知乎 AI Agent｜小红书 春季穿搭<br>
-                        支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德地图/gd/dt/地图/amap<br>
+                        支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德地图/gd/dt/地图、淘宝/tb、京东/jd、拼多多/pdd<br>
                         快捷命令：在搜索框直接输入「zh AI Agent」也可自动识别平台
                     </div>
                 </details>
@@ -555,6 +558,31 @@
                 name: '高德地图',
                 aliases: ['amap', 'gd', 'dt', '高德', '地图', '高德地图'],
                 searchUrl: 'https://ditu.amap.com/search?query={keyword}',
+            },
+            {
+                id: 'taobao',
+                name: '淘宝',
+                aliases: ['tb', 'taobao', '淘宝'],
+                searchUrl: 'https://s.taobao.com/search?q={keyword}',
+                schemeUrl: 'taobao://s.taobao.com?q={keyword}',
+                intentUrl: 'intent://s.taobao.com?q={keyword}#Intent;scheme=taobao;package=com.taobao.taobao;end',
+            },
+            {
+                id: 'jd',
+                name: '京东',
+                aliases: ['jd', 'jingdong', '京东'],
+                searchUrl: 'https://search.jd.com/Search?keyword={keyword}&enc=utf-8',
+                // 京东 App 搜索：params 为一段 URL 编码后的 JSON，{keyword} 处填编码后的关键词
+                schemeUrl: 'openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%7D',
+                intentUrl: 'intent://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22productList%22%2C%22keyWord%22%3A%22{keyword}%22%2C%22from%22%3A%22search%22%7D#Intent;scheme=openapp.jdmobile;package=com.jingdong.app.mall;end',
+            },
+            {
+                id: 'pinduoduo',
+                name: '拼多多',
+                aliases: ['pdd', 'pinduoduo', '拼多多'],
+                searchUrl: 'https://mobile.yangkeduo.com/search_result.html?search_key={keyword}',
+                schemeUrl: 'pinduoduo://com.xunmeng.pinduoduo/search_result.html?search_key={keyword}',
+                intentUrl: 'intent://com.xunmeng.pinduoduo/search_result.html?search_key={keyword}#Intent;scheme=pinduoduo;package=com.xunmeng.pinduoduo;end',
             }
         ];
         const defaultPlatformOrder = platforms.map(p => p.id);
