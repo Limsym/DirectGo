@@ -483,6 +483,7 @@
                         <button class="platform-tag" draggable="true" data-platform="weibo" type="button">微博</button>
                         <button class="platform-tag" draggable="true" data-platform="bilibili" type="button">哔哩哔哩</button>
                         <button class="platform-tag" draggable="true" data-platform="bing" type="button">Bing</button>
+                        <button class="platform-tag" draggable="true" data-platform="github" type="button">GitHub</button>
                         <button class="platform-tag" draggable="true" data-platform="amap" type="button">高德地图</button>
                         <button class="platform-tag" draggable="true" data-platform="taobao" type="button">淘宝</button>
                         <button class="platform-tag" draggable="true" data-platform="jd" type="button">京东</button>
@@ -498,7 +499,7 @@
                     <summary>查看示例与别名</summary>
                     <div class="help-details-content">
                         例：知乎 AI Agent｜小红书 春季穿搭<br>
-                        支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、高德地图/gd/dt/地图、淘宝/tb、京东/jd、拼多多/pdd<br>
+                        支持别名：知乎/zh、小红书/xhs、微博/wb、哔哩哔哩/bl/b站、必应/bing、GitHub/gh、高德地图/gd/dt/地图、淘宝/tb、京东/jd、拼多多/pdd<br>
                         快捷命令：在搜索框直接输入「zh AI Agent」也可自动识别平台
                     </div>
                 </details>
@@ -510,7 +511,7 @@
         <div id="message-div" class="message" role="status" aria-live="polite" style="display: none;"></div>
 
         <!-- 版本日期水印 -->
-        <div class="version-watermark">2026-06-29</div>
+        <div class="version-watermark">2026-07-09</div>
 
     <script>
         // 支持的平台配置
@@ -552,6 +553,14 @@
                 name: 'Bing',
                 aliases: ['bing', '必应', 'Bing'],
                 searchUrl: 'https://www.bing.com/search?q={keyword}',
+            },
+            {
+                id: 'github',
+                name: 'GitHub',
+                aliases: ['gh', 'github', 'GitHub'],
+                searchUrl: 'https://github.com/search?q={keyword}&type=repositories',
+                schemeUrl: '', // GitHub App 暂无稳定的搜索 Scheme，留空以回退 Web
+                intentUrl: '', // GitHub App 暂无稳定的搜索 Intent，留空以回退 Web
             },
             {
                 id: 'amap',
